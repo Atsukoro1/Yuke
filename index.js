@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 require('dotenv').config();
 
@@ -18,6 +19,9 @@ mongoose.connect(process.env.MONGOURI, {   useNewUrlParser: true, useUnifiedTopo
 const app = express();
 const server = http.createServer(app);
 
+// Use cookie parser
+app.use(cookieParser());
+
 // support parsing of application/json type post data
 app.use(bodyParser.json());
 
@@ -25,8 +29,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-var auth = require('./routes/api/auth');
+const auth = require('./routes/api/auth');
 app.use('/api/auth', auth);
+const settings = require('./routes/api/settings');
+app.use('/api/settings', settings);
 
 server.listen((process.env.PORT || 3000), () => {
     console.log("Server started at port *" + (process.env.PORT || 3000))

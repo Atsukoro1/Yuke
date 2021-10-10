@@ -43,7 +43,7 @@ router.post('/register', async (req, res) => {
 
     newUser.save();
 
-    const token = jwt.sign({ token: newUser._id }, process.env.JWTSECRET);
+    const token = jwt.sign({ _id: newUser._id }, process.env.JWTSECRET);
 
     return res.status(200).json({ token: token });
 });
@@ -72,7 +72,7 @@ router.post('/login', async (req, res) => {
 
     if(!passwordMatch) res.json({ error: "Incorrect password!" });
 
-    const token = jwt.sign({ token: user._id }, process.env.JWTSECRET);
+    const token = jwt.sign({ _id: user._id }, process.env.JWTSECRET);
 
     return res.status(200).json({ token: token });
 });
