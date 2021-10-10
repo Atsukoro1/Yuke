@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
 module.exports = {
-    apiTokenVerify(req, res, next) {
+    async apiTokenVerify(req, res, next) {
         const token = req.cookies.token;
 
         // Check if token exists
@@ -11,7 +12,8 @@ module.exports = {
 
         try {
             const verified = jwt.verify(token, process.env.JWTSECRET);
-            req.user = verified;
+            const user = await User.findOne({ _id: verified._id });
+            req.user = user;
             next();
         } catch (err) {
             return res.json({
@@ -20,15 +22,16 @@ module.exports = {
         }
     },
 
-    frontendTokenVerify(req, res, next) {
+    async frontendTokenVerify(req, res, next) {
         const token = req.cookies.token;
 
         // Check if token exists
         if (!token) return res.redirect('/');
 
         try {
-            const verified = jwt.verify(token, process.env.JWTSECRET);
-            req.user = verified;
+            const verified = await jwt.verify(token, process.env.JWTSECRET);
+            const user = await User.findOne({ _id: verified._id });
+            req.user = user;
             next();
         } catch (err) {
             return res.redirect('/');

@@ -33,6 +33,8 @@ const auth = require('./routes/api/auth');
 app.use('/api/auth', auth);
 const settings = require('./routes/api/settings');
 app.use('/api/settings', settings);
+const friends = require('./routes/api/friends');
+app.use('/api/friends', friends);
 
 server.listen((process.env.PORT || 3000), () => {
     console.log("Server started at port *" + (process.env.PORT || 3000))

@@ -21,15 +21,14 @@ router.post('/changepassword', apiTokenVerify, async(req, res) => {
     if(error) return res.json({ error: error.details[0].message });
 
     // Check if password matches the hash
-    const user = await User.findOne({ _id: req.user._id });
-    const match = await bcrypt.compare(req.body.password, user.password);
+    const match = await bcrypt.compare(req.body.password, req.user.password);
     if(!match) return res.json({ error: "Password is incorrect!" })
 
     // Hash new password
     const newHashedPassword =  await bcrypt.hash(req.body.newPassword, 11);
 
     // Change password
-    User.findById(user._id).then((model) => {
+    User.findById(req.user._id).then((model) => {
         return Object.assign(model, {password: newHashedPassword});
     }).then((model) => {
         return model.save();
@@ -55,12 +54,11 @@ router.post('/changeemail', apiTokenVerify, async(req, res) => {
     if(emailExistUser) return res.json({ error: "User with this email already exists!" })
 
     // Check if password matches the hash
-    const user = await User.findOne({ _id: req.user._id });
-    const match = await bcrypt.compare(req.body.password, user.password);
+    const match = await bcrypt.compare(req.body.password, req.user.password);
     if(!match) return res.json({ error: "Password is incorrect!" })
 
     // Change email
-    User.findById(user._id).then((model) => {
+    User.findById(req.user._id).then((model) => {
         return Object.assign(model, {email: req.body.newEmail});
     }).then((model) => {
         return model.save();
@@ -83,12 +81,11 @@ router.post('/changeusername', apiTokenVerify, async(req, res) => {
     if(error) return res.json({ error: error.details[0].message });
 
     // Check if password matches the hash
-    const user = await User.findOne({ _id: req.user._id });
-    const match = await bcrypt.compare(req.body.password, user.password);
+    const match = await bcrypt.compare(req.body.password, req.user.password);
     if(!match) return res.json({ error: "Password is incorrect!" })
 
     // Change username
-    User.findById(user._id).then((model) => {
+    User.findById(req.user._id).then((model) => {
         return Object.assign(model, {username: req.body.newUsername});
     }).then((model) => {
         return model.save();
