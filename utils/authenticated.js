@@ -21,6 +21,17 @@ module.exports = {
     },
 
     frontendTokenVerify(req, res, next) {
+        const token = req.cookies.token;
 
+        // Check if token exists
+        if (!token) return res.redirect('/');
+
+        try {
+            const verified = jwt.verify(token, process.env.JWTSECRET);
+            req.user = verified;
+            next();
+        } catch (err) {
+            return res.redirect('/');
+        }
     }
 }
