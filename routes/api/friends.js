@@ -72,6 +72,63 @@ router.post('/add', apiTokenVerify, async (req, res) => {
     });
 })
 
+router.post('/decline', apiTokenVerify, async (req, res) => {
+    // Validate input data
+    const joiSchema = Joi.object({
+        _id: Joi.string().required()
+    })
+
+    const error = joiSchema.validate(req.body).error;
+    if (error) return res.json({
+        error: error.details[0].message
+    });
+
+    // Get user from database
+    const opponent = await User.findOne({
+        _id: req.body._id
+    });
+    const author = req.user;
+
+    // Remove the request from ingoing friend requests
+    user = author.ingoingFriendRequests.filter(us => us._id == req.body._id);
+    index = author.ingoingFriendRequests.findIndex(us => us._id == req.body._id);
+    author.ingoingFriendRequests.splice(index, 1);
+    author.friends.push(user[0]);
+
+    // Remove the request from outgoing friend requests
+    user = opponent.outgoingFriendRequests.filter(us => us._id == author._id.toString());
+    index = opponent.outgoingFriendRequests.findIndex(us => us._id == author._id.toString());
+    opponent.outgoingFriendRequests.splice(index, 1); 
+
+    // Save author data to database
+    User.findById(req.user._id).then((model) => {
+        Object.assign(model, {
+            ingoingFriendRequests: author.ingoingFriendRequests
+        });
+
+        try {
+            model.save();
+        } catch(err) {
+            return;
+        }
+    });
+
+    // Save opponent data to database
+    User.findById(opponent._id).then((model) => {
+        Object.assign(model, {
+            ingoingFriendRequests: opponent.ingoingFriendRequests
+        });
+
+        try {
+            model.save();
+        } catch(err) {
+            return;
+        }
+    });
+
+    res.status(200).json({ success: true });
+})
+
 router.post('/accept', apiTokenVerify, async (req, res) => {
     // Validate input data
     const joiSchema = Joi.object({
