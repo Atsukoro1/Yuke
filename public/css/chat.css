@@ -1,0 +1,78 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #F3F4F6;
+}
+
+#gridContainer {
+    display: flex;
+}
+
+.grid {
+    background-color: rgb(255, 255, 255);
+    height: 100vh;
+}
+
+.grid:nth-child(1) {
+    width: 450px;
+    margin-right: 50px;
+    padding: 10px;
+}
+
+#me {
+    margin-top: 3px;
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+#profilePicture {
+    height: 40px;
+    border-radius: 100px;
+    vertical-align: middle;
+}
+
+#username {
+    font-family: Poppins;
+    margin-top: -10px;
+    margin-left: 5px;
+}
+
+.grid:nth-child(2) {
+    width: 100%;
+}
+
+.selectIcons {
+    background-color: #E5E7EB;
+    color: #9CA3AF;
+    padding: 5px;
+    border-radius: 8px;
+    margin-top: 5px;
+    margin-left: 5px;
+    transition: all ease-in-out 0.3s;
+    float: right;
+}
+
+.selectIcons:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+#contactContainer {
+    overflow: scroll;
+}
+
+.statusMark {
+    height: 15px;
+    width: 15px;
+    position: absolute;
+    top: -14px;
+    left: 28px;
+    background-color: yellowgreen;
+    border-radius: 100px;
+}
+
+.contact div {
+    display: grid;
+    grid-template-columns: auto auto;
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+        integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/chat.css">
+    <title>Yuke | <%= title %></title>
+</head>
+
+<body>
+    <div id="gridContainer">
+        <div class="grid">
+            <div id="me">
+                <div>
+                    <img id="profilePicture" src="https://www.gravatar.com/avatar/193b5e63889a2f9c433fc99fbb5a9060?d=retro"
+                        alt="profilePicture">
+                    <label id="username">Atsukoro</label>
+                </div>
+    
+                <div>
+                    <span class="selectIcons" id="signOut">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </span>
+    
+                    <span class="selectIcons" id="settings">
+                        <i class="fas fa-cog"></i>
+                    </span>
+    
+                    <span class="selectIcons" id="friends">
+                        <i class="fas fa-user-friends"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div id="contactContainer">
+                <div class="contact">
+                    <div>
+                        <div>
+                            <img src="https://www.gravatar.com/avatar/193b5e63889a2f9c433gc99fbb5a9060?d=retro" alt="profilePicture" id="profilePicture">
+                            <div class="statusMark"></div>
+                        </div>
+
+                        <div>
+                            <label class="username">Atsukoro</label><br>
+                            <label aria-owns="online" class="status">Jsem picus ahoj</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+        </div>
+    </div>
+</body>
+
+</html>
