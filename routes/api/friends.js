@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
+const md5 = require('md5');
 
 // Mongoose model
 const User = require('../../models/User');
@@ -40,7 +41,8 @@ router.post('/add', apiTokenVerify, async (req, res) => {
     // Add user to author outgoing requests
     req.user.outgoingFriendRequests.push({
         _id: userToAdd._id,
-        username: userToAdd.username
+        username: userToAdd.username,
+        email: md5(userToAdd.email)
     })
 
     // Save author's outgoing requests
@@ -55,7 +57,8 @@ router.post('/add', apiTokenVerify, async (req, res) => {
     // Add user to oponnent ingoing requests
     userToAdd.ingoingFriendRequests.push({
         _id: req.user._id,
-        username: req.user.username
+        username: req.user.username,
+        email: md5(req.user.email)
     })
 
     // Save opponent's ingoing requests
