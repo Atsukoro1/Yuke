@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+        integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/public/css/auth.css">
+    <title>Yuke | <%= title %></title>
+</head>
+
+<body>
+    <div id="gridContainer">
+        <div class="grid">
+            <h1 id="title">
+                <i class="fas fa-comment-alt"></i> Yuke
+            </h1>
+
+            <p id="subtitle">Yuke is a place where you can privately <br> chat with your best friends.</p>
+        </div>
+
+        <div class="grid">
+            <input placeholder="Username" type="text" name="username" id="username"><br>
+            <input placeholder="Email" type="email" name="email" id="email"><br>
+            <input placeholder="Password" type="password" name="password" id="password"><br>
+
+            <button id="registerButton">Register</button>
+
+            <a href="/login" id="switch">Alreade have an account?</a>
+        </div>
+    </div>
+</body>
+
+</html>
