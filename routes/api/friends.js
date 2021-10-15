@@ -129,6 +129,68 @@ router.post('/decline', apiTokenVerify, async (req, res) => {
     res.status(200).json({ success: true });
 })
 
+router.post('/block', apiTokenVerify, async (req, res) => {
+    // Validate input data
+    const joiSchema = Joi.object({
+        _id: Joi.string().required()
+    })
+
+    const error = joiSchema.validate(req.body).error;
+    if (error) return res.json({
+        error: error.details[0].message
+    });
+    
+    // Get user from database
+    const opponent = await User.findOne({
+        _id: req.body._id
+    });
+    const author = req.user;
+
+    // Check if users are friends
+    if(author.friends.filter(us => us._id == req.body._id).length > 0) {
+        // Remove friend from author
+        user = author.friends.filter(us => us._id == req.body._id);
+        aindex = author.friends.findIndex(us => us._id == req.body._id);
+        author.friends.splice(aindex, 1);
+
+        // Add user to author's blocked users
+        author.blockedUsers.push(user[0]);
+
+        // Save author to database
+        User.findById(req.user._id).then((model) => {
+            Object.assign(model, {
+                friends: author.friends,
+                blockedUsers: author.blockedUsers
+            });
+    
+            try {
+                model.save();
+            } catch(err) {
+                return;
+            }
+        });
+
+        // Remove friend from opponent
+        oindex = opponent.friends.findIndex(us => us._id == author._id);
+        opponent.friends.splice(oindex, 1);
+
+        // Save opponent to database
+        User.findById(opponent._id).then((model) => {
+            Object.assign(model, {
+                friends: opponent.friends
+            });
+    
+            try {
+                model.save();
+            } catch(err) {
+                return;
+            }
+        });
+    }
+
+    res.status(200).json({ success: true });
+})
+
 router.post('/accept', apiTokenVerify, async (req, res) => {
     // Validate input data
     const joiSchema = Joi.object({
