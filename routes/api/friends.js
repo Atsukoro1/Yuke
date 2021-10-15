@@ -72,6 +72,60 @@ router.post('/add', apiTokenVerify, async (req, res) => {
     });
 })
 
+router.post('/remove', apiTokenVerify, async (req, res) => {
+    // Validate input data
+    const joiSchema = Joi.object({
+        _id: Joi.string().required()
+    })
+
+    const error = joiSchema.validate(req.body).error;
+    if (error) return res.json({
+        error: error.details[0].message
+    });
+
+    // Get user from database
+    const opponent = await User.findOne({
+        _id: req.body._id
+    });
+    const author = req.user;
+
+    // Remove friend from author
+    aindex = author.friends.findIndex(us => us._id == req.body._id);
+    author.friends.splice(aindex, 1);
+
+    // Remove friend from opponent
+    oindex = opponent.friends.findIndex(us => us._id == author._id);
+    opponent.friends.splice(oindex, 1);
+
+    // Save author to database
+    User.findById(req.user._id).then((model) => {
+        Object.assign(model, {
+            friends: author.friends
+        });
+
+        try {
+            model.save();
+        } catch(err) {
+            return;
+        }
+    });
+
+    // Save opponent data to database
+    User.findById(opponent._id).then((model) => {
+        Object.assign(model, {
+            friends: opponent.friends
+        });
+
+        try {
+            model.save();
+        } catch(err) {
+            return;
+        }
+    });
+
+    res.status(200).json({ success: true });
+})
+
 router.post('/decline', apiTokenVerify, async (req, res) => {
     // Validate input data
     const joiSchema = Joi.object({
