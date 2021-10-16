@@ -3,6 +3,22 @@ body {
     padding: 0;
     height: 100%;
     background-color: #F3F4F6;
+    overflow: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #E5E7EB;
+    border-radius: 100px;
 }
 
 #gridContainer {
@@ -24,16 +40,19 @@ body {
     margin-top: 3px;
     display: grid;
     grid-template-columns: auto auto;
+    margin-bottom: 30px;
 }
 
 #profilePicture {
-    height: 40px;
+    height: 60px;
     border-radius: 100px;
     vertical-align: middle;
 }
 
 #username {
     font-family: Poppins;
+    font-weight: 600;
+    font-size: 20px;
     margin-top: -10px;
     margin-left: 5px;
 }
@@ -44,9 +63,10 @@ body {
 
 .selectIcons {
     background-color: #E5E7EB;
-    color: #9CA3AF;
-    padding: 5px;
-    border-radius: 8px;
+    color: #1F2937;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 20px;
     margin-top: 5px;
     margin-left: 5px;
     transition: all ease-in-out 0.3s;
@@ -58,21 +78,204 @@ body {
     opacity: 0.8;
 }
 
-#contactContainer {
-    overflow: scroll;
+#contactGrid .contact {
+    display: flex;
+    background-color: #F3F4F6;
+    padding: 10px;
+    border-radius: 10px;
+    transition: all ease-in-out 0.2s;
+    margin-bottom: 10px;
+    width: 90%;
 }
 
-.statusMark {
-    height: 15px;
-    width: 15px;
-    position: absolute;
-    top: -14px;
-    left: 28px;
-    background-color: yellowgreen;
+#contactGrid {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 88%;
+}
+
+#contactGrid .contact:hover {
+    cursor: pointer;
+    background-color: #E5E7EB;
+}
+
+#contactGrid .contact .contactStatus,
+.contactName {
+    margin: 0px;
+    font-family: Poppins;
+}
+
+#contactGrid .contact .contactName {
+    font-weight: 400;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.statusSign {
+    height: 14px;
+    width: 14px;
     border-radius: 100px;
+    background: green;
+    display: inline-flex;
 }
 
-.contact div {
-    display: grid;
-    grid-template-columns: auto auto;
+#contactGrid .contact .contactStatus {
+    color: gray;
+    font-size: 14px;
+}
+
+#contactGrid .contact .contactProfilePicture {
+    border-radius: 100px;
+    height: 60px;
+    margin-right: 10px;
+}
+
+#logoutWindow {
+    position: fixed;
+    background-color: white;
+    height: 80px;
+    width: 500px;
+    bottom: 0;
+    top: 50%;
+    left: 50%;
+    padding: 10px;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+}
+
+#logoutTitle {
+    font-family: Poppins;
+    font-weight: 600;
+    font-size: 20px;
+    position: fixed;
+    top: 0;
+}
+
+#logUserOut {
+    background-color: #7C3AED;
+    border: none;
+    font-family: Poppins;
+    font-weight: 500;
+    padding: 10px 20px;
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+    border-radius: 10px;
+    color: white;
+    transition: all ease-in-out 0.3s;
+}
+
+#logUserOut:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+#logoutBackground {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(175, 175, 175);
+    opacity: 0.5;
+    bottom: 0;
+}
+
+#logoutClose {
+    position: fixed;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 26px;
+    color: #4B5563;
+    transition: all ease-in-out 0.3s;
+}
+
+#logoutClose:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+#logoutGrid {
+    display: none;
+}
+
+#settingsWindow {
+    position: fixed;
+    background-color: white;
+    height: 600px;
+    width: 1000px;
+    bottom: 0;
+    top: 50%;
+    left: 50%;
+    padding: 10px;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+}
+
+#settingsBackground {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(175, 175, 175);
+    opacity: 0.5;
+    bottom: 0;
+}
+
+#settingsClose {
+    position: fixed;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 26px;
+    color: #4B5563;
+    transition: all ease-in-out 0.3s;
+}
+
+#settingsClose:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+#settingsGrid {
+    display: none;
+}
+
+#friendsWindow {
+    position: fixed;
+    background-color: white;
+    height: 700px;
+    width: 1300px;
+    bottom: 0;
+    top: 50%;
+    left: 50%;
+    padding: 10px;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+}
+
+#friendsBackground {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(175, 175, 175);
+    opacity: 0.5;
+    bottom: 0;
+}
+
+#friendsClose {
+    position: fixed;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 26px;
+    color: #4B5563;
+    transition: all ease-in-out 0.3s;
+}
+
+#friendsClose:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+#friendsGrid {
+    display: none;
 }
