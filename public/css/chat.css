@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     height: 100%;
-    background-color: #F3F4F6;
+    background-color: #E5E7EB;
     overflow: hidden;
 }
 
@@ -278,4 +278,67 @@ body {
 
 #friendsGrid {
     display: none;
+}
+
+#userInfo {
+    display: grid;
+    grid-template-columns: auto auto;
+    border-bottom: 1px #E5E7EB solid;
+    padding: 10px;
+}
+
+#userInfo .contactProfilePicture {
+    border-radius: 100px;
+    vertical-align: middle;
+    height: 60px;
+    width: 60px;
+}
+
+#userInfo label {
+    font-family: Poppins;
+    font-weight: 500;
+    margin-left: 10px;
+}
+
+#userInfo div:nth-child(2) button {
+    background-color: #E5E7EB;
+    color: #1F2937;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    margin-top: 5px;
+    margin-left: 5px;
+    transition: all ease-in-out 0.3s;
+    float: right;
+    margin-right: 10px;
+}
+
+#userInfo div:nth-child(2) button:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+#messages {
+    width: 100%;
+    height: 100%;
+}
+
+#messageInputContainer {
+    width: 100%;
+    display: flex;
+}
+
+#messageInput {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: transparent;
+    border: none;
+    color: rgb(0, 0, 0);
+    outline: none;
+    background-color: #F3F4F6;
+    height: 40px;
+    padding: 5px 30px;
+    font-size: 15px;
 }
