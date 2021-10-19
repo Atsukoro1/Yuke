@@ -204,8 +204,8 @@ body {
 #settingsWindow {
     position: fixed;
     background-color: white;
-    height: 600px;
-    width: 1000px;
+    height: fit-content;
+    width: fit-content;
     bottom: 0;
     top: 50%;
     left: 50%;
@@ -240,6 +240,37 @@ body {
 
 #settingsGrid {
     display: none;
+}
+
+.sTitle {
+    font-family: Poppins;
+    font-weight: 400;
+}
+
+.sInput {
+    border: none;
+    background-color: #E5E7EB;
+    padding: 10px;
+    border-radius: 10px;
+    outline: none;
+}
+
+.sButton {
+    background-color: #7C3AED;
+    border: none;
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 13px;
+    outline: none;
+    padding: 8px;
+    border-radius: 10px;
+    color: white;
+    transition: all ease-in-out 0.3s;
+}
+
+.sButton:hover {
+    cursor: pointer;
+    opacity: 0.8;
 }
 
 #friendsWindow {
@@ -280,7 +311,7 @@ body {
 }
 
 #friendsGrid {
-    /* display: none; */
+    display: none;
 }
 
 #friendsColumnGrid {
@@ -499,4 +530,3 @@ body {
     transform: translate(-50%, -50%);
     height: 80%;
 }
-
