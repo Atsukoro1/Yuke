@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js" integrity="sha512-zN6KYOtONNTOGXz0RkWX2EpavN9VdIs+2w+To+fhciFv83YA9maUpi2lzZWrOfKXdFIZZomWufBznkyHi3a8oQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="/public/css/chat.css">
     <title>Yuke | <%= title %></title>
 </head>
@@ -359,6 +360,14 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            const socket = io();
+
+            socket.onAny((event, ...args) => {
+                console.log(event, args);
+            });
+        </script>
     </div>
 
     <script src="/public/js/chatWindowController.js"></script>

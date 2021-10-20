@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const cookie = require('cookie');
+const jwt = require('jsonwebtoken');
 
 require('dotenv').config();
 
@@ -19,6 +21,45 @@ mongoose.connect(process.env.MONGOURI, { useNewUrlParser: true, useUnifiedTopolo
 // Create HTTP server
 const app = express();
 const server = http.createServer(app);
+
+// Create socket
+const io = require('socket.io')(server, {
+    cors: {
+        origin: "http://localhost:8080",
+    }
+});
+
+let socketConnectedUsers = new Map();
+
+// Socket authentication
+io.use((socket, next) => {
+    // Get and validate user connected to socket
+    const token = cookie.parse(socket.handshake.headers.cookie)["token"];
+
+    if(!token) {
+        return next(new Error("Invalid token."));
+    }
+
+    // Validate token, if token is invalid close connection don't let user to use the socket
+    const validation = jwt.verify(token, process.env.JWTSECRET);
+    
+    if(!validation) {
+        return next(new Error("Token is not valid."));
+    }
+
+    // Let user use this socket and add id parameter
+    socket._id = validation._id;
+    next();
+});
+
+// Socket event when user joins the socket
+io.on('connection', (socket) => {
+    socketConnectedUsers.set(socket._id, socket.id);
+
+    socket.on('disconnect', () => {
+        console.log("Disconected " + socket._id);
+    })
+});
 
 // Make public folder working to serve static files
 app.use("/public", express.static(path.join(__dirname, 'public')));
