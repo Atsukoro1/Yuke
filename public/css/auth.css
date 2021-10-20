@@ -3,6 +3,7 @@ body {
     padding: 0;
     overflow: hidden;
     background-color: #F3F4F6;
+    font-family: Poppins;
 }
 
 #gridContainer {
