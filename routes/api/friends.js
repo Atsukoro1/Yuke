@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 const md5 = require('md5');
+const ObjectID = require("mongodb").ObjectID
 
 // Mongoose model
 const User = require('../../models/User');
@@ -23,6 +24,11 @@ router.post('/add', apiTokenVerify, async (req, res) => {
     const error = joiSchema.validate(req.body).error;
     if (error) return res.json({
         error: error.details[0].message
+    });
+
+    // Check if id is valid mongo id
+    if (!ObjectID.isValid(req.body._id)) return res.json({
+        error: "Id is not valid"
     });
 
     // Check if user that will be added as a friend exists
@@ -86,6 +92,11 @@ router.post('/remove', apiTokenVerify, async (req, res) => {
         error: error.details[0].message
     });
 
+    // Check if id is valid mongo id
+    if (!ObjectID.isValid(req.body._id)) return res.json({
+        error: "Id is not valid"
+    });
+
     // Get user from database
     const opponent = await User.findOne({
         _id: req.body._id
@@ -108,7 +119,7 @@ router.post('/remove', apiTokenVerify, async (req, res) => {
 
         try {
             model.save();
-        } catch(err) {
+        } catch (err) {
             return;
         }
     });
@@ -121,12 +132,14 @@ router.post('/remove', apiTokenVerify, async (req, res) => {
 
         try {
             model.save();
-        } catch(err) {
+        } catch (err) {
             return;
         }
     });
 
-    res.status(200).json({ success: true });
+    res.status(200).json({
+        success: true
+    });
 })
 
 router.post('/decline', apiTokenVerify, async (req, res) => {
@@ -138,6 +151,11 @@ router.post('/decline', apiTokenVerify, async (req, res) => {
     const error = joiSchema.validate(req.body).error;
     if (error) return res.json({
         error: error.details[0].message
+    });
+
+    // Check if id is valid mongo id
+    if (!ObjectID.isValid(req.body._id)) return res.json({
+        error: "Id is not valid"
     });
 
     // Get user from database
@@ -155,7 +173,7 @@ router.post('/decline', apiTokenVerify, async (req, res) => {
     // Remove the request from outgoing friend requests
     user = opponent.outgoingFriendRequests.filter(us => us._id == author._id.toString());
     index = opponent.outgoingFriendRequests.findIndex(us => us._id == author._id.toString());
-    opponent.outgoingFriendRequests.splice(index, 1); 
+    opponent.outgoingFriendRequests.splice(index, 1);
 
     // Save author data to database
     User.findById(req.user._id).then((model) => {
@@ -165,7 +183,7 @@ router.post('/decline', apiTokenVerify, async (req, res) => {
 
         try {
             model.save();
-        } catch(err) {
+        } catch (err) {
             return;
         }
     });
@@ -178,12 +196,14 @@ router.post('/decline', apiTokenVerify, async (req, res) => {
 
         try {
             model.save();
-        } catch(err) {
+        } catch (err) {
             return;
         }
     });
 
-    res.status(200).json({ success: true });
+    res.status(200).json({
+        success: true
+    });
 })
 
 router.post('/block', apiTokenVerify, async (req, res) => {
@@ -196,7 +216,12 @@ router.post('/block', apiTokenVerify, async (req, res) => {
     if (error) return res.json({
         error: error.details[0].message
     });
-    
+
+    // Check if id is valid mongo id
+    if (!ObjectID.isValid(req.body._id)) return res.json({
+        error: "Id is not valid"
+    });
+
     // Get user from database
     const opponent = await User.findOne({
         _id: req.body._id
@@ -204,7 +229,7 @@ router.post('/block', apiTokenVerify, async (req, res) => {
     const author = req.user;
 
     // Check if users are friends
-    if(author.friends.filter(us => us._id == req.body._id).length > 0) {
+    if (author.friends.filter(us => us._id == req.body._id).length > 0) {
         // Remove friend from author
         user = author.friends.filter(us => us._id == req.body._id);
         aindex = author.friends.findIndex(us => us._id == req.body._id);
@@ -219,10 +244,10 @@ router.post('/block', apiTokenVerify, async (req, res) => {
                 friends: author.friends,
                 blockedUsers: author.blockedUsers
             });
-    
+
             try {
                 model.save();
-            } catch(err) {
+            } catch (err) {
                 return;
             }
         });
@@ -236,16 +261,18 @@ router.post('/block', apiTokenVerify, async (req, res) => {
             Object.assign(model, {
                 friends: opponent.friends
             });
-    
+
             try {
                 model.save();
-            } catch(err) {
+            } catch (err) {
                 return;
             }
         });
     }
 
-    res.status(200).json({ success: true });
+    res.status(200).json({
+        success: true
+    });
 })
 
 router.post('/accept', apiTokenVerify, async (req, res) => {
@@ -257,6 +284,11 @@ router.post('/accept', apiTokenVerify, async (req, res) => {
     const error = joiSchema.validate(req.body).error;
     if (error) return res.json({
         error: error.details[0].message
+    });
+
+    // Check if id is valid mongo id
+    if (!ObjectID.isValid(req.body._id)) return res.json({
+        error: "Id is not valid"
     });
 
     // Get user from database
@@ -286,7 +318,7 @@ router.post('/accept', apiTokenVerify, async (req, res) => {
 
         try {
             model.save();
-        } catch(err) {
+        } catch (err) {
             return;
         }
     });
@@ -300,13 +332,15 @@ router.post('/accept', apiTokenVerify, async (req, res) => {
 
         try {
             model.save();
-        } catch(err) {
+        } catch (err) {
             return;
         }
     });
 
     // Send response back to client
-    res.status(200).json({ success: true });
+    res.status(200).json({
+        success: true
+    });
 })
 
 module.exports = router;

@@ -9,6 +9,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js" integrity="sha512-zN6KYOtONNTOGXz0RkWX2EpavN9VdIs+2w+To+fhciFv83YA9maUpi2lzZWrOfKXdFIZZomWufBznkyHi3a8oQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -23,9 +24,9 @@
             <div class="grid">
                 <div id="me">
                     <div>
-                        <img id="profilePicture" src="https://www.gravatar.com/avatar/194b6e63889a2f9c433fc99fb5a9060?d=retro"
+                        <img id="profilePicture" src="https://www.gravatar.com/avatar/<%= user.email %>?d=retro"
                             alt="profilePicture">
-                        <label id="username">Atsukoro</label>
+                        <label id="username"><%= user.username %></label>
                     </div>
         
                     <div>
@@ -273,44 +274,21 @@
 
                     <div id="fContainer">
 
-                        <div class="fContact">
+                        <% if(user.friends) { %>
+                        <% user.friends.forEach(us => { %>
+                        <div id="<%= us._id.toString() %>" class="fContact">
                             <div>
-                                <img class="fContactProfilePicture" src="https://www.gravatar.com/avatar/194b6e63889a2f9c433fc99f5569060?d=retro">
-                                <label id="fContactName">ContactName</label>
+                                <img class="fContactProfilePicture" src="https://www.gravatar.com/avatar/<%= us.email %>?d=retro">
+                                <label id="fContactName"><%= us.username %></label>
                             </div>
 
                             <div>
-                                <button class="fButtons"><i class="fas fa-user-times"></i></button>
-                                <button class="fButtons"><i class="fas fa-times"></i></button>
-                                <button class="fButtons"><i class="fas fa-trash-alt"></i></button>
+                                <button onclick="removeFriend('<%= us._id.toString() %>')" class="fButtons"><i class="fas fa-user-times"></i></button>
+                                <button onclick="blockUser('<%= us._id.toString() %>')" class="fButtons"><i class="fas fa-times"></i></button>
                             </div>
                         </div>
-
-                        <div class="fContact">
-                            <div>
-                                <img class="fContactProfilePicture" src="https://www.gravatar.com/avatar/194b6e63889a2f9c433fc99f5569060?d=retro">
-                                <label id="fContactName">ContactName</label>
-                            </div>
-
-                            <div>
-                                <button class="fButtons"><i class="fas fa-user-times"></i></button>
-                                <button class="fButtons"><i class="fas fa-times"></i></button>
-                                <button class="fButtons"><i class="fas fa-trash-alt"></i></button>
-                            </div>
-                        </div>
-
-                        <div class="fContact">
-                            <div>
-                                <img class="fContactProfilePicture" src="https://www.gravatar.com/avatar/194b6e63889a2f9c433fc99f5569060?d=retro">
-                                <label id="fContactName">ContactName</label>
-                            </div>
-
-                            <div>
-                                <button class="fButtons"><i class="fas fa-user-times"></i></button>
-                                <button class="fButtons"><i class="fas fa-times"></i></button>
-                                <button class="fButtons"><i class="fas fa-trash-alt"></i></button>
-                            </div>
-                        </div>
+                        <% }); %>
+                        <% } %>
 
                     </div>
                 </div>
@@ -320,17 +298,21 @@
 
                     <div id="ifContainer">
 
-                        <div class="fContact">
-                            <div>
-                                <img class="fContactProfilePicture" src="https://www.gravatar.com/avatar/194b6e63889a2f9c433fc99f5569060?d=retro">
-                                <label id="fContactName">ContactName</label>
+                        <% if(user.ingoingFriendRequests) { %>
+                        <% user.ingoingFriendRequests.forEach(us => { %>
+                            <div id="<%= us._id.toString() %>" class="fContact">
+                                <div>
+                                    <img class="fContactProfilePicture" src="https://www.gravatar.com/avatar/<%= us.email %>?d=retro">
+                                    <label id="fContactName"><%= us.username %></label>
+                                </div>
+    
+                                <div>
+                                    <button onclick="acceptFriendRequest('<%= us._id.toString() %>')" class="fButtons"><i class="fas fa-check"></i></button>
+                                    <button onclick="declineFriendRequest('<%= us._id.toString() %>')" class="fButtons"><i class="fas fa-times"></i></button>
+                                </div>
                             </div>
-
-                            <div>
-                                <button class="fButtons"><i class="fas fa-check"></i></button>
-                                <button class="fButtons"><i class="fas fa-times"></i></button>
-                            </div>
-                        </div>
+                        <% }); %>
+                        <% } %>
 
                     </div>
                 </div>
@@ -340,21 +322,25 @@
 
                     <div id="addFriendsFlexbox">
                         <input type="text" id="addFriendsInput" placeholder="Enter a user ID..">
-                        <button id="addFriendsButton"><i class="fas fa-plus-circle"></i></button>
+                        <button onclick="addFriend(document.getElementById('addFriendsInput').value)" id="addFriendsButton"><i class="fas fa-plus-circle"></i></button>
                     </div>
 
                     <div id="ofContainer">
 
-                        <div class="fContact">
+                        <% if(user.outgoingFriendRequests) { %>
+                        <% user.outgoingFriendRequests.forEach(us => { %>
+                        <div id="<%= us._id.toString() %>" class="fContact">
                             <div>
-                                <img class="fContactProfilePicture" src="https://www.gravatar.com/avatar/194b6e63889a2f9c433fc99f5569060?d=retro">
-                                <label id="fContactName">ContactName</label>
+                                <img class="fContactProfilePicture" src="https://www.gravatar.com/avatar/<%= us.email %>?d=retro">
+                                <label id="fContactName"><%= us.username %></label>
                             </div>
 
                             <div>
                                 <button class="fButtons"><i class="fas fa-times"></i></button>
                             </div>
                         </div>
+                        <% }); %>
+                        <% } %>
 
                     </div>
                 </div>
@@ -370,8 +356,9 @@
         </script>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     <script src="/public/js/chatWindowController.js"></script>
-    <script src="/public/js/uiInfoControl.js"></script>
+    <script src="/public/js/friendsControl.js"></script>
 </body>
 
 </html>

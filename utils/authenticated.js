@@ -31,7 +31,9 @@ module.exports = {
 
         try {
             const verified = await jwt.verify(token, process.env.JWTSECRET);
-            req.user = verified;
+            const user = await User.findOne({ _id: verified._id });
+            user.email = md5(user.email);
+            req.user = user;
             next();
         } catch (err) {
             return res.redirect('/login');

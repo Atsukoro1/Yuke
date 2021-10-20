@@ -21,7 +21,8 @@ router.get('/register', async (req,res) => {
 
 router.get('/', frontendTokenVerify, async (req,res) => {
     res.render('chat.ejs', {
-        title: "Chat"
+        title: "Chat",
+        user: req.user
     });
 })
 
