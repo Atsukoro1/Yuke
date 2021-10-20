@@ -6,7 +6,14 @@ const Joi = require('joi');
 // Mongoose model
 const User = require('../../models/User');
 
+// Middleware
+const { apiTokenVerify } = require('../../utils/authenticated');
+
 const router = express.Router();
+
+router.get('/me', apiTokenVerify, async (req, res) => {
+    res.send(req.user);
+})
 
 router.post('/register', async (req, res) => {
     const joiSchema = Joi.object({

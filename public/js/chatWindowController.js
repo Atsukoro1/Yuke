@@ -53,12 +53,12 @@ friendsOnButton.addEventListener('click', () => {
     friendsGrid.style.display = "inline";
 });
 
-// Hide logout window from user
+// Hide friends window from user
 friendsOffButton.addEventListener('click', () => {
     friendsGrid.style.display = "none";
 });
 
-// Hide logout window from user
+// Hide friends window from user
 friendsBackground.addEventListener('click', () => {
     friendsGrid.style.display = "none";
-})
+});

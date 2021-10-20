@@ -57,7 +57,7 @@ io.on('connection', (socket) => {
     socketConnectedUsers.set(socket._id, socket.id);
 
     socket.on('disconnect', () => {
-        console.log("Disconected " + socket._id);
+        socketConnectedUsers.delete(socket._id);
     })
 });
 
