@@ -3,6 +3,7 @@ const User = require('../models/User');
 const md5 = require('md5');
 
 module.exports = {
+    // Verify token when using API
     async apiTokenVerify(req, res, next) {
         const token = req.cookies.token;
 
@@ -23,6 +24,7 @@ module.exports = {
         }
     },
 
+    // Check if user is authenticated on frontend
     async frontendTokenVerify(req, res, next) {
         const token = req.cookies.token;
 
@@ -38,5 +40,24 @@ module.exports = {
         } catch (err) {
             return res.redirect('/login');
         }
+    },
+
+    // Redirect user back to chat if he's authenticated
+    async redirectAuthenticated(req, res, next) {
+        const token = req.cookies.token;
+
+        // Check if token exists
+        if(!token) return next();
+
+        const verified = await jwt.verify(token, process.env.JWTSECRET);
+
+        // If token can't be verified, let user to login
+        if(!verified) return next();
+
+        // If user exists, redirect user to chat
+        const user = await User.findOne({ _id: verified._id });
+        if(user) return res.redirect('/');
+
+        return next();
     }
 }

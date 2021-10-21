@@ -5,15 +5,15 @@ const router = express.Router();
 const User = require('../../models/User');
 
 // Middleware
-const { frontendTokenVerify } = require('../../utils/authenticated')
+const { frontendTokenVerify, redirectAuthenticated } = require('../../utils/authenticated')
 
-router.get('/login', async (req,res) => {
+router.get('/login', redirectAuthenticated, async (req,res) => {
     res.render('login.ejs', {
         title: "Login"
     });
 })
 
-router.get('/register', async (req,res) => {
+router.get('/register', redirectAuthenticated, async (req,res) => {
     res.render('register.ejs', {
         title: "Register"
     });
