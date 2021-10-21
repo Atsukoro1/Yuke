@@ -1,5 +1,18 @@
 // Notification library
-var notyf = new Notyf();
+const notyf = new Notyf({
+    types: [
+      {
+        type: 'error',
+        background: '#7C3AED',
+        dismissible: true
+      },
+      {
+        type: 'success',
+        background: '#7C3AED',
+        dismissible: true
+      }
+    ]
+});
 
 function makeRequest(_id, href, passText) {
     if(!_id) return notyf.error("Please enter a user id");

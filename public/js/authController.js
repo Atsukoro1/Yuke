@@ -1,7 +1,7 @@
 const onAuthClickButton = document.getElementById("loginButton") || document.getElementById("registerButton");
 const authType = document.getElementById("loginButton") ? "login" : "register";
 
-onAuthClickButton.addEventListener('click', () => {
+function authenticate() {
     let data = {};
 
     let email = document.getElementById('email');
@@ -24,7 +24,20 @@ onAuthClickButton.addEventListener('click', () => {
     .then(response => response.json())
     .then(data => {
         // Create an instance of Notyf
-        var notyf = new Notyf();
+        const notyf = new Notyf({
+            types: [
+              {
+                type: 'error',
+                background: '#7C3AED',
+                dismissible: true
+              },
+              {
+                type: 'success',
+                background: '#7C3AED',
+                dismissible: true
+              }
+            ]
+        });
 
         // Check if some error happened
         if(data.error) return notyf.error(data.error);
@@ -33,4 +46,16 @@ onAuthClickButton.addEventListener('click', () => {
         document.cookie = "token=" + data.token;
         window.location.href = "/";
     })
+}
+
+// Try to authenticate when user clicks button
+onAuthClickButton.addEventListener('click', () => {
+    authenticate();
+})
+
+// Try to authenticate when user press the "Enter" key
+document.addEventListener('keydown', (key) => {
+    if(key.code == "Enter") {
+        authenticate();
+    }
 })

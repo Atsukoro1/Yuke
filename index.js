@@ -54,8 +54,14 @@ io.use((socket, next) => {
 
 // Socket event when user joins the socket
 io.on('connection', (socket) => {
-    socketConnectedUsers.set(socket._id, socket.id);
 
+    // Check if this user is already connected
+    if(socketConnectedUsers.get(socket._id)) return;
+
+    // If not, add user _id and socket_id to list
+    socketConnectedUsers.set(socket._id, socket.id, "online");
+
+    // On disconnects, delete user from map
     socket.on('disconnect', () => {
         socketConnectedUsers.delete(socket._id);
     })

@@ -46,126 +46,18 @@
     
                 <div id="contactGrid">
     
-                    <div class="contact">
-                        <div>
-                            <img class="contactProfilePicture" src="https://www.gravatar.com/avatar/194b6e63889a2f9c433fc99f5569060?d=retro">
+                    <% user.friends.forEach(us => { %>
+                        <div class="contact">
+                            <div>
+                                <img class="contactProfilePicture" src="https://www.gravatar.com/avatar/<%= us.email %>?d=retro">
+                            </div>
+        
+                            <div>
+                                <h1 class="contactName"><%= us.username %> <span class="statusSign"></span></h1>
+                                <p class="contactStatus">status bude zde</p>
+                            </div>
                         </div>
-    
-                        <div>
-                            <h1 class="contactName">LnxCZ <span class="statusSign"></span></h1>
-                            <p class="contactStatus">Prave spatne hraji osu</p>
-                        </div>
-                    </div>
-    
-                    <div class="contact">
-                        <div>
-                            <img class="contactProfilePicture" src="https://www.gravatar.com/avatar/194b6e638534543534533fc99f5569060?d=retro">
-                        </div>
-    
-                        <div>
-                            <h1 class="contactName">H0ri_ <span class="statusSign"></span></h1>
-                            <p class="contactStatus">Mam anime na pfp a anime nesleduji</p>
-                        </div>
-                    </div>
-    
-                    <div class="contact">
-                        <div>
-                            <img class="contactProfilePicture" src="https://www.gravatar.com/avatar/1sadab6e63889a2f9c43dfc99f5569060?d=retro">
-                        </div>
-    
-                        <div>
-                            <h1 class="contactName">Fckinbunny <span class="statusSign"></span></h1>
-                            <p class="contactStatus">Delam dalsi beaty</p>
-                        </div>
-                    </div>
-    
-                    <div class="contact">
-                        <div>
-                            <img class="contactProfilePicture" src="https://www.gravatar.com/avatar/1sadab6e63889a2f9c43dfc99f5569060?d=retro">
-                        </div>
-    
-                        <div>
-                            <h1 class="contactName">Fckinbunny <span class="statusSign"></span></h1>
-                            <p class="contactStatus">Delam dalsi beaty</p>
-                        </div>
-                    </div>
-    
-                    <div class="contact">
-                        <div>
-                            <img class="contactProfilePicture" src="https://www.gravatar.com/avatar/1sadab6e63889a2f9c43dfc99f5569060?d=retro">
-                        </div>
-    
-                        <div>
-                            <h1 class="contactName">Fckinbunny <span class="statusSign"></span></h1>
-                            <p class="contactStatus">Delam dalsi beaty</p>
-                        </div>
-                    </div>
-    
-                    <div class="contact">
-                        <div>
-                            <img class="contactProfilePicture" src="https://www.gravatar.com/avatar/1sadab6e63889a2f9c43dfc99f5569060?d=retro">
-                        </div>
-    
-                        <div>
-                            <h1 class="contactName">Fckinbunny <span class="statusSign"></span></h1>
-                            <p class="contactStatus">Delam dalsi beaty</p>
-                        </div>
-                    </div>
-    
-                    <div class="contact">
-                        <div>
-                            <img class="contactProfilePicture" src="https://www.gravatar.com/avatar/1sadab6e63889a2f9c43dfc99f5569060?d=retro">
-                        </div>
-    
-                        <div>
-                            <h1 class="contactName">Fckinbunny <span class="statusSign"></span></h1>
-                            <p class="contactStatus">Delam dalsi beaty</p>
-                        </div>
-                    </div>
-    
-                    <div class="contact">
-                        <div>
-                            <img class="contactProfilePicture" src="https://www.gravatar.com/avatar/1sadab6e63889a2f9c43dfc99f5569060?d=retro">
-                        </div>
-    
-                        <div>
-                            <h1 class="contactName">Fckinbunny <span class="statusSign"></span></h1>
-                            <p class="contactStatus">Delam dalsi beaty</p>
-                        </div>
-                    </div>
-    
-                    <div class="contact">
-                        <div>
-                            <img class="contactProfilePicture" src="https://www.gravatar.com/avatar/1sadab6e63889a2f9c43dfc99f5569060?d=retro">
-                        </div>
-    
-                        <div>
-                            <h1 class="contactName">Fckinbunny <span class="statusSign"></span></h1>
-                            <p class="contactStatus">Delam dalsi beaty</p>
-                        </div>
-                    </div>
-    
-                    <div class="contact">
-                        <div>
-                            <img class="contactProfilePicture" src="https://www.gravatar.com/avatar/1sadab6e63889a2f9c43dfc99f5569060?d=retro">
-                        </div>
-    
-                        <div>
-                            <h1 class="contactName">Fckinbunny <span class="statusSign"></span></h1>
-                            <p class="contactStatus">Delam dalsi beaty</p>
-                        </div>
-                    </div>
-    
-                    <div class="contact">
-                        <div>
-                            <img class="contactProfilePicture" src="https://www.gravatar.com/avatar/1sadab6e63889a2f9c43dfc99f5569060?d=retro">
-                        </div>
-    
-                        <div>
-                            <h1 class="contactName">Fckinbunny <span class="statusSign"></span></h1>
-                            <p class="contactStatus">Delam dalsi beaty</p>
-                        </div>
-                    </div>
+                    <% }) %>
     
                 </div>
             </div>
@@ -284,7 +176,7 @@
 
                             <div>
                                 <button onclick="removeFriend('<%= us._id.toString() %>')" class="fButtons"><i class="fas fa-user-times"></i></button>
-                                <button onclick="blockUser('<%= us._id.toString() %>')" class="fButtons"><i class="fas fa-times"></i></button>
+                                <button onclick="blockUser('<%= us._id.toString() %>')" class="fButtons"><i class="fas fa-ban"></i></button>
                             </div>
                         </div>
                         <% }); %>
@@ -359,6 +251,7 @@
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     <script src="/public/js/chatWindowController.js"></script>
     <script src="/public/js/friendsControl.js"></script>
+    <script src="/public/js/userController.js"></script>
 </body>
 
 </html>
