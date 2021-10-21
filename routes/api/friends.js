@@ -326,7 +326,7 @@ router.post('/accept', apiTokenVerify, async (req, res) => {
     // Save opponent data to database
     User.findById(opponent._id).then((model) => {
         Object.assign(model, {
-            ingoingFriendRequests: opponent.ingoingFriendRequests,
+            ingoingFriendRequests: opponent.outgoingFriendRequests,
             friends: opponent.friends
         });
 
