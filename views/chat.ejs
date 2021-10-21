@@ -47,7 +47,7 @@
                 <div id="contactGrid">
     
                     <% user.friends.forEach(us => { %>
-                        <div class="contact">
+                        <div onclick="selectUser('<%= JSON.stringify(us) %>')" class="contact">
                             <div>
                                 <img class="contactProfilePicture" src="https://www.gravatar.com/avatar/<%= us.email %>?d=retro">
                             </div>
@@ -65,8 +65,8 @@
             <div class="grid">
                 <div id="userInfo">
                     <div>
-                        <img class="contactProfilePicture" src="https://www.gravatar.com/avatar/194b6e63889a2f9c433fc99f5569060?d=retro">
-                        <label>Atsukoro <span class="statusSign"></span></label>
+                        <img id="actualProfilePfp" class="contactProfilePicture" src="https://www.gravatar.com/avatar/194b6e63889a2f9c433fc99f5569060?d=retro">
+                        <label><label id="actualProfileUsermame">Username</label> <span class="statusSign"></span></label>
                     </div>
     
                     <div>
@@ -238,20 +238,13 @@
                 </div>
             </div>
         </div>
-
-        <script>
-            const socket = io();
-
-            socket.onAny((event, ...args) => {
-                console.log(event, args);
-            });
-        </script>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     <script src="/public/js/chatWindowController.js"></script>
     <script src="/public/js/friendsControl.js"></script>
     <script src="/public/js/userController.js"></script>
+    <script src="/public/js/chatController.js"></script>
 </body>
 
 </html>
