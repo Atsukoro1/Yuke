@@ -57,16 +57,17 @@ io.on('connection', (socket) => {
     // Add user to map on join
     socketConnectedUsers.set(socket._id, socket.id);
 
+    // When someone sends a message from client catch the data here
     socket.on('message', (data) => {
+        // Get socket id for message recipient
         let sendToSocketId = socketConnectedUsers.get(data.to);
 
-        if(sendToSocketId) {
-            socket.to(sendToSocketId).emit('message', {
-                content: data.content,
-                to: data.to,
-                from: data.from
-            });
-        }
+        // If socket id exists, send the message to recipient
+        socket.to(sendToSocketId).emit('message', {
+            content: data.content,
+            to: data.to,
+            from: data.from
+        });
     })
 
     socket.on('disconnect', () => {

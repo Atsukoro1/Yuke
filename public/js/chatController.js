@@ -8,7 +8,16 @@ socket.onAny((event, ...args) => {
 
 // Listen to chat messages
 socket.on('message', (message) => {
-    console.log(message);
+    // Get message container
+    const messagesContainer = document.getElementById('messages');
+    
+    // Create message element
+    let messageElement = document.createElement('li');
+    messageElement.innerText = message.content;
+    messageElement.setAttribute('class', "messageOpponent");
+
+    // Append element to message container
+    messagesContainer.appendChild(messageElement);
 })
 
 
@@ -53,11 +62,23 @@ function sendMessage() {
     let sendToId = document.getElementById('chattingTo').value;
     let fromUserId = document.getElementById('userId').value;
 
+    // send message data to server
     socket.emit("message", {
         content: messageContent,
         to: sendToId,
         from: fromUserId
     });
+
+    // Get message container
+    const messagesContainer = document.getElementById('messages');
+    
+    // Create message element
+    let messageElement = document.createElement('li');
+    messageElement.innerText = messageInput.value;
+    messageElement.setAttribute('class', "messageAuthor");
+
+    // Append message element in message container
+    messagesContainer.appendChild(messageElement);
 
     // Clear content of the input
     messageInput.value = "";
