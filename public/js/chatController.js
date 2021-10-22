@@ -1,9 +1,15 @@
 // Socket client
 const socket = io();
 
+// Listen to every event happening on socket
 socket.onAny((event, ...args) => {
     console.log(event, args);
 });
+
+// Listen to chat messages
+socket.on('message', (message) => {
+    console.log(message);
+})
 
 
 // CONTROL USER SELECTION IN CHAT
@@ -11,8 +17,10 @@ function selectUser(user) {
     user = JSON.parse(user);
     
     const username = document.getElementById('actualProfileUsermame');
-    const profilePicture = document.getElementById('actualProfilePfp')
+    const profilePicture = document.getElementById('actualProfilePfp');
+    const chattingToInput = document.getElementById('chattingTo');
 
+    chattingToInput.setAttribute('value', user._id);
     username.innerText = user.username;
     profilePicture.setAttribute("src", "https://www.gravatar.com/avatar/" + user.email + "?d=retro")
 }
@@ -40,6 +48,17 @@ messageInput.addEventListener('keydown', (key) => {
 
 // Send message
 function sendMessage() {
+    // Send the message to server
+    let messageContent = messageInput.value;
+    let sendToId = document.getElementById('chattingTo').value;
+    let fromUserId = document.getElementById('userId').value;
+
+    socket.emit("message", {
+        content: messageContent,
+        to: sendToId,
+        from: fromUserId
+    });
+
     // Clear content of the input
-    messageInput.value = ""
+    messageInput.value = "";
 }
