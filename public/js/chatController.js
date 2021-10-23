@@ -3,6 +3,7 @@ const socket = io();
 
 // We need that variable for listing through messages
 let page = 0;
+let maxPages;
 
 // Listen to every event happening on socket
 socket.onAny((event, ...args) => {
@@ -42,7 +43,7 @@ function selectUser(user) {
     user = JSON.parse(user);
 
     // Display first 10 messages
-    console.log(displayMessages(user._id, page));
+    displayMessages(user._id, page);
 
     const username = document.getElementById('actualProfileUsermame');
     const profilePicture = document.getElementById('actualProfilePfp');
@@ -77,7 +78,8 @@ messageInput.addEventListener('keydown', (key) => {
 // Display older messages when user clicks on "Display older messages"
 const olderMessagesButton = document.getElementById("olderMessages");
 olderMessagesButton.addEventListener('click', () => {
-    displayMessages(document.getElementById('chattingTo').value, page)
+    displayMessages(document.getElementById('chattingTo').value, page);
+    if(page > maxPages) return olderMessagesButton.innerText = "ㅤ";
 })
 
 function displayMessages(_id, pageToDisplay) {
@@ -96,6 +98,7 @@ function displayMessages(_id, pageToDisplay) {
         })
         .then(response => response.json())
         .then(data => {
+            maxPages = data.maxPages;
             if (data.error) return;
 
             data.documents[0].reverse();

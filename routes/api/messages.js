@@ -34,7 +34,8 @@ router.post('/get', apiTokenVerify, async (req, res) => {
         error: "Id is not valid"
     });
 
-    let page = Math.floor((await Message.countDocuments({}) / 10) - req.body.page)
+    let documentCount = await Message.countDocuments({}) / 10
+    let page = Math.floor(documentCount - req.body.page)
 
     // Get all messages, sort them and paginate them
     Message.find({ $or: [ { from: req.user._id, to: req.body._id }, { from: req.body._id, to: req.user._id } ] })
@@ -42,15 +43,8 @@ router.post('/get', apiTokenVerify, async (req, res) => {
     .limit(10)
     .exec(function(err, docs) { 
         if(err) return res.json({ error: "Some error happened!" });
-        console.log(docs);
-        res.json({ documents: [docs], pages: page });
+        res.json({ documents: [docs], maxPages: Math.floor(documentCount) });
     });
-
-    // Message.paginate({ $or: [ { from: req.user._id, to: req.body._id }, { from: req.body._id, to: req.user._id } ] }, { page: req.body.page, limit: 10 }, function(err, result) {
-    //     if(err) return res.json({ error: "Some error happened!" });
-
-    //     return res.json(result);
-    // });
 })
 
 router.post('/delete', apiTokenVerify, (req, res) => {
