@@ -38,6 +38,9 @@ function selectUser(user) {
 
     user = JSON.parse(user);
 
+    // Display first 10 messages
+    displayMessages(user._id, page);
+
     const username = document.getElementById('actualProfileUsermame');
     const profilePicture = document.getElementById('actualProfilePfp');
     const chattingToInput = document.getElementById('chattingTo');
@@ -48,6 +51,9 @@ function selectUser(user) {
 }
 
 // CONTROL MESSAGE SENDING 
+
+// We need that variable for listing through messages
+let page = 1;
 
 // When user tries to send a message
 const messageInput = document.getElementById('messageInput');
@@ -67,6 +73,46 @@ messageInput.addEventListener('keydown', (key) => {
         return false;
     }
 });
+
+function displayMessages(_id, page) {
+    // Fetch messages from API
+    let data = {
+        _id: _id,
+        page: page
+    };
+    fetch('/api/messages/get', {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) return;
+
+            data.docs.forEach(message => {
+                // Message container where we append all the messages
+                const messageContainer = document.getElementById('messages');
+
+                // Check if message author is user with currentl account
+                const currentUserId = document.getElementById('userId').value;
+
+                // Create message element
+                let messageElement = document.createElement('li');
+                messageElement.innerText = message.content;
+
+                if (message.from == currentUserId) {
+                    messageElement.setAttribute('class', "messageAuthor");
+                } else {
+                    messageElement.setAttribute('class', "messageOpponent");
+                }
+
+                // Append message element in message container
+                messageContainer.appendChild(messageElement);
+            });
+        })
+}
 
 // Send message
 function sendMessage() {

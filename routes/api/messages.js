@@ -13,7 +13,7 @@ const { apiTokenVerify } = require('../../utils/authenticated');
 
 const router = express.Router();
 
-router.get('/get', apiTokenVerify, (req, res) => {
+router.post('/get', apiTokenVerify, (req, res) => {
 
     // Schema to validate user input
     const joiSchema = new Joi.object({
