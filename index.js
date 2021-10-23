@@ -72,12 +72,13 @@ io.on('connection', (socket) => {
             from: data.from
         });
 
+        // Create message and save it to the database
         const newMessage = new Message({
             content: data.content,
             from: data.from,
             to: data.to
         });
-
+        
         newMessage.save();
     })
 
@@ -108,6 +109,8 @@ const settings = require('./routes/api/settings');
 app.use('/api/settings', settings);
 const friends = require('./routes/api/friends');
 app.use('/api/friends', friends);
+const messages = require('./routes/api/messages');
+app.use('/api/messages', messages);
 
 // Frontent route
 const frontend = require('./routes/frontend/index');
