@@ -42,7 +42,7 @@ function selectUser(user) {
     user = JSON.parse(user);
 
     // Display first 10 messages
-    displayMessages(user._id, page);
+    console.log(displayMessages(user._id, page));
 
     const username = document.getElementById('actualProfileUsermame');
     const profilePicture = document.getElementById('actualProfilePfp');
@@ -77,11 +77,11 @@ messageInput.addEventListener('keydown', (key) => {
 // Display older messages when user clicks on "Display older messages"
 const olderMessagesButton = document.getElementById("olderMessages");
 olderMessagesButton.addEventListener('click', () => {
-    if(page == 0) return olderMessagesButton.remove();
     displayMessages(document.getElementById('chattingTo').value, page)
 })
 
 function displayMessages(_id, pageToDisplay) {
+    page++;
     // Fetch messages from API
     let data = {
         _id: _id,
@@ -97,7 +97,6 @@ function displayMessages(_id, pageToDisplay) {
         .then(response => response.json())
         .then(data => {
             if (data.error) return;
-            page = data.pages;
 
             data.documents[0].reverse();
             data.documents[0].forEach(message => {
