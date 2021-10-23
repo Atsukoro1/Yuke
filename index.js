@@ -18,6 +18,9 @@ mongoose.connect(process.env.MONGOURI, { useNewUrlParser: true, useUnifiedTopolo
     console.log(err);
 })
 
+// Mongoose models
+const Message = require('./models/Message');
+
 // Create HTTP server
 const app = express();
 const server = http.createServer(app);
@@ -68,6 +71,14 @@ io.on('connection', (socket) => {
             to: data.to,
             from: data.from
         });
+
+        const newMessage = new Message({
+            content: data.content,
+            from: data.from,
+            to: data.to
+        });
+
+        newMessage.save();
     })
 
     socket.on('disconnect', () => {

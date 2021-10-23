@@ -10,21 +10,34 @@ socket.onAny((event, ...args) => {
 socket.on('message', (message) => {
     // Get message container
     const messagesContainer = document.getElementById('messages');
-    
-    // Create message element
-    let messageElement = document.createElement('li');
-    messageElement.innerText = message.content;
-    messageElement.setAttribute('class', "messageOpponent");
 
-    // Append element to message container
-    messagesContainer.appendChild(messageElement);
+    const chattingToId = document.getElementById('chattingTo').value;
+    if (chattingToId == message.from) {
+        // We are chatting with user that is currently selected as user to chat with
+
+        // Create message element
+        let messageElement = document.createElement('li');
+        messageElement.innerText = message.content;
+        messageElement.setAttribute('class', "messageOpponent");
+
+        // Append element to message container
+        messagesContainer.appendChild(messageElement);
+    } else {
+        // User is not selected as user to chat with
+
+        alert('user is not selected');
+    }
 })
 
 
 // CONTROL USER SELECTION IN CHAT
 function selectUser(user) {
+    // Get message container and clear all the previous messages
+    const messagesContainer = document.getElementById('messages');
+    messagesContainer.textContent = "";
+
     user = JSON.parse(user);
-    
+
     const username = document.getElementById('actualProfileUsermame');
     const profilePicture = document.getElementById('actualProfilePfp');
     const chattingToInput = document.getElementById('chattingTo');
@@ -49,9 +62,9 @@ messageSendButton.addEventListener('click', () => {
 messageInput.addEventListener('keydown', (key) => {
     if (!key) key = window.event;
     var keyCode = key.code || key.key;
-    if (keyCode == 'Enter'){
-      sendMessage();
-      return false;
+    if (keyCode == 'Enter') {
+        sendMessage();
+        return false;
     }
 });
 
@@ -71,7 +84,7 @@ function sendMessage() {
 
     // Get message container
     const messagesContainer = document.getElementById('messages');
-    
+
     // Create message element
     let messageElement = document.createElement('li');
     messageElement.innerText = messageInput.value;

@@ -105,20 +105,22 @@
 
             <label class="sTitle">Change username</label><br>
             <input type="text" class="sInput" id="newUsername" placeholder="Your new username" value="Atsukoro">
-            <button class="sButton" id="saveUsername">save</button>
+            <input type="password" class="sInput" id="usernamePass" placeholder="Your password">
+            <button onclick="changeUsername()" class="sButton">save</button>
 
             <br><br>
 
             <label class="sTitle">Change email</label><br>
             <input type="email" class="sInput" id="newEmail" placeholder="Your new email" value="atsukoro@gmail.com">
-            <button class="sButton" id="saveEmail">save</button>
+            <input type="password" class="sInput" id="emailPass" placeholder="Your password">
+            <button onclick="changeEmail()" class="sButton">save</button>
 
             <br><br>
 
             <label class="sTitle">Password</label><br>
             <input type="password" class="sInput" id="oldPass" placeholder="Your old password">
             <input type="password" class="sInput" id="newPass" placeholder="Your new password">
-            <button class="sButton" id="savePassword">save</button>
+            <button onclick="changePassword()" class="sButton">save</button>
         </div>
     </div>
 
@@ -129,7 +131,7 @@
             <button id="logoutClose"><i class="fas fa-times"></i></button>
 
             <h1 id="logoutTitle">Do you really want to log-out?</h1>
-            <button id="logUserOut">Logout</button>
+            <button onclick="logout()" id="logUserOut">Logout</button>
         </div>
     </div>
 
