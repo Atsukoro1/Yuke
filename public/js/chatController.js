@@ -1,6 +1,9 @@
 // Socket client
 const socket = io();
 
+// We need that variable for listing through messages
+let page = 0;
+
 // Listen to every event happening on socket
 socket.onAny((event, ...args) => {
     console.log(event, args);
@@ -52,9 +55,6 @@ function selectUser(user) {
 
 // CONTROL MESSAGE SENDING 
 
-// We need that variable for listing through messages
-let page = 1;
-
 // When user tries to send a message
 const messageInput = document.getElementById('messageInput');
 const messageSendButton = document.getElementById('messageButton');
@@ -74,11 +74,18 @@ messageInput.addEventListener('keydown', (key) => {
     }
 });
 
-function displayMessages(_id, page) {
+// Display older messages when user clicks on "Display older messages"
+const olderMessagesButton = document.getElementById("olderMessages");
+olderMessagesButton.addEventListener('click', () => {
+    if(page == 0) return olderMessagesButton.remove();
+    displayMessages(document.getElementById('chattingTo').value, page)
+})
+
+function displayMessages(_id, pageToDisplay) {
     // Fetch messages from API
     let data = {
         _id: _id,
-        page: page
+        page: pageToDisplay
     };
     fetch('/api/messages/get', {
             method: "POST",
@@ -90,8 +97,10 @@ function displayMessages(_id, page) {
         .then(response => response.json())
         .then(data => {
             if (data.error) return;
+            page = data.pages;
 
-            data.docs.forEach(message => {
+            data.documents[0].reverse();
+            data.documents[0].forEach(message => {
                 // Message container where we append all the messages
                 const messageContainer = document.getElementById('messages');
 
@@ -109,7 +118,7 @@ function displayMessages(_id, page) {
                 }
 
                 // Append message element in message container
-                messageContainer.appendChild(messageElement);
+                messageContainer.prepend(messageElement);
             });
         })
 }

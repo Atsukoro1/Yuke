@@ -9,33 +9,48 @@ const User = require('../../models/User');
 const Message = require('../../models/Message');
 
 // Middleware
-const { apiTokenVerify } = require('../../utils/authenticated');
+const {
+    apiTokenVerify
+} = require('../../utils/authenticated');
 
 const router = express.Router();
 
-router.post('/get', apiTokenVerify, (req, res) => {
+router.post('/get', apiTokenVerify, async (req, res) => {
 
     // Schema to validate user input
     const joiSchema = new Joi.object({
         _id: Joi.string().required(),
-        page: Joi.number().required().min(1)
+        page: Joi.number().required().min(0)
     });
 
     // Send error back to the client
     const error = joiSchema.validate(req.body).error;
-    if(error) return res.json({ error: error.details[0].message });
+    if (error) return res.json({
+        error: error.details[0].message
+    });
 
-        // Check if _id is a valid mongo id
+    // Check if _id is a valid mongo id
     if (!ObjectID.isValid(req.body._id)) return res.json({
         error: "Id is not valid"
     });
-    
-    // Get all messages, sort them and paginate them
-    Message.paginate({ $or: [ { from: req.user._id, to: req.body._id }, { from: req.body._id, to: req.user._id } ], sort: '-creationDate' }, { page: req.body.page, limit: 10 }, function(err, result) {
-        if(err) return res.json({ error: "Some error happened!" });
 
-        return res.json(result);
+    let page = Math.floor((await Message.countDocuments({}) / 10) - req.body.page)
+
+    // Get all messages, sort them and paginate them
+    Message.find({ $or: [ { from: req.user._id, to: req.body._id }, { from: req.body._id, to: req.user._id } ] })
+    .skip((page) * 10)
+    .limit(10)
+    .exec(function(err, docs) { 
+        if(err) return res.json({ error: "Some error happened!" });
+        console.log(docs);
+        res.json({ documents: [docs], pages: page });
     });
+
+    // Message.paginate({ $or: [ { from: req.user._id, to: req.body._id }, { from: req.body._id, to: req.user._id } ] }, { page: req.body.page, limit: 10 }, function(err, result) {
+    //     if(err) return res.json({ error: "Some error happened!" });
+
+    //     return res.json(result);
+    // });
 })
 
 router.post('/delete', apiTokenVerify, (req, res) => {
@@ -46,7 +61,9 @@ router.post('/delete', apiTokenVerify, (req, res) => {
 
     // Send error back to the client
     const error = joiSchema.validate(req.body).error;
-    if(error) return res.json({ error: error.details[0].message });
+    if (error) return res.json({
+        error: error.details[0].message
+    });
 
     // Check if _id is a valid mongo id
     if (!ObjectID.isValid(req.body._id)) return res.json({
@@ -54,29 +71,41 @@ router.post('/delete', apiTokenVerify, (req, res) => {
     });
 
     // Delete the message
-    Message.findByIdAndDelete(req.body._id, {}, function(err, result) {
-        if(err) return res.json({ error: "Some error happened!" });
+    Message.findByIdAndDelete(req.body._id, {}, function (err, result) {
+        if (err) return res.json({
+            error: "Some error happened!"
+        });
 
-        return res.json({ success: true });
+        return res.json({
+            success: true
+        });
     })
 });
 
 router.post('/edit', apiTokenVerify, (req, res) => {
-        // Validate user input
-        const joiSchema = new Joi.object({
-            _id: Joi.string().required(),
-            content: Joi.string().required().min(1).max(500)
-        });
-    
-        // Send error back to the client
-        const error = joiSchema.validate(req.body).error;
-        if(error) return res.json({ error: error.details[0].message });
+    // Validate user input
+    const joiSchema = new Joi.object({
+        _id: Joi.string().required(),
+        content: Joi.string().required().min(1).max(500)
+    });
 
-        Message.findByIdAndUpdate(req.body._id, { content: req.body.content }, {}, function(err, result) {
-            if(err) return res.json({ error: "Some error happened!" });
+    // Send error back to the client
+    const error = joiSchema.validate(req.body).error;
+    if (error) return res.json({
+        error: error.details[0].message
+    });
 
-            return res.json({ success: true });
+    Message.findByIdAndUpdate(req.body._id, {
+        content: req.body.content
+    }, {}, function (err, result) {
+        if (err) return res.json({
+            error: "Some error happened!"
         });
+
+        return res.json({
+            success: true
+        });
+    });
 })
 
 module.exports = router;
