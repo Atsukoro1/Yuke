@@ -48,13 +48,13 @@
                 <div id="contactGrid">
     
                     <% user.friends.forEach(us => { %>
-                        <div onclick="selectUser('<%= JSON.stringify(us) %>')" class="contact">
+                        <div id="<%= us._id %>" onclick="selectUser('<%= JSON.stringify(us) %>')" class="contact">
                             <div>
                                 <img class="contactProfilePicture" src="https://www.gravatar.com/avatar/<%= us.email %>?d=retro">
                             </div>
         
                             <div>
-                                <h1 class="contactName"><%= us.username %> <span class="statusSign"></span></h1>
+                                <h1 class="contactName"><%= us.username %> <span aria-controls="offline" class="statusSign"></span></h1>
                                 <p class="contactStatus">status bude zde</p>
                             </div>
                         </div>
@@ -67,8 +67,8 @@
                 <div id="userInfo">
                     <div>
                         <input id="chattingTo" style="display: none;" type="text">
-                        <img id="actualProfilePfp" class="contactProfilePicture" src="https://www.gravatar.com/avatar/194b6e63889a2f9c433fc99f5569060?d=retro">
-                        <label><label id="actualProfileUsermame">Username</label> <span class="statusSign"></span></label>
+                        <img id="actualProfilePfp" class="contactProfilePicture" src="https://www.gravatar.com/avatar/194b6e63889a2f9c433fc99f5569060?d=blank">
+                        <label><label id="actualProfileUsermame"></label> <span class="statusSign"></span></label>
                     </div>
     
                     <div>

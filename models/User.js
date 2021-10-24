@@ -38,7 +38,20 @@ const userSchema = new mongoose.Schema({
     friends: {
         type: Array,
         default: []
+    },
+
+    messageStatus: {
+        type: String,
+        default: "Hi im new here!",
+        min: 1,
+        max: 50
+    },
+
+    status: {
+        type: String,
+        default: "offline"
     }
+
 })
 
 const User = mongoose.model("User", userSchema);

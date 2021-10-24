@@ -20,6 +20,7 @@ mongoose.connect(process.env.MONGOURI, { useNewUrlParser: true, useUnifiedTopolo
 
 // Mongoose models
 const Message = require('./models/Message');
+const User = require('./models/User');
 
 // Create HTTP server
 const app = express();
@@ -55,10 +56,36 @@ io.use((socket, next) => {
     next();
 });
 
+// Send user's status to all friends
+function announnceStatus(status, socket) {
+
+    // Check if "status" is a valid status
+    if(!["online", "idle", "offline"].includes(status)) return;
+
+    // Find user by author id
+    User.findById(socket._id, function(err, userInfo) {
+        if(err) return;
+
+        // Send status to socket of each friend
+        if(userInfo.friends.length > 0) {
+            userInfo.friends.forEach(f => {
+                let sendToSocketId = socketConnectedUsers.get(f._id.toString());
+                
+                socket.to(sendToSocketId).emit('status', {
+                    from: socket._id,
+                    status: status
+                });
+            })
+        }
+    });
+}
+
 // Socket event when user joins the socket
 io.on('connection', (socket) => {
     // Add user to map on join
     socketConnectedUsers.set(socket._id, socket.id);
+
+    announnceStatus("online", socket);
 
     // When someone sends a message from client catch the data here
     socket.on('message', (data) => {
@@ -83,6 +110,9 @@ io.on('connection', (socket) => {
     })
 
     socket.on('disconnect', () => {
+
+        announnceStatus("offline", socket);
+
         // Remove user from map on leave
         socketConnectedUsers.delete(socket._id);
     })

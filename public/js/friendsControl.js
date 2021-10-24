@@ -64,6 +64,8 @@ function declineFriendRequest(_id) {
 function searchFriends(username) {
     if(!username) return notyf.error("Please enter a username");
 
+    document.getElementById('sfContainer').innerHTML = " ";
+
     let body = { username: username };
     fetch('/api/friends/search', {
         method: "POST",

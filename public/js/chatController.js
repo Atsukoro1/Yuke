@@ -10,6 +10,15 @@ socket.onAny((event, ...args) => {
     console.log(event, args);
 });
 
+// Listen to status changes
+socket.on('status', (status) => {
+    // Get _id of friend
+    let statusElement = document.getElementById(status.from).getElementsByTagName('div')[1].getElementsByClassName('statusSign')[0];
+
+    // Set status using aria-controls attribute
+    statusElement.setAttribute('aria-controls', status.status)
+})
+
 // Listen to chat messages
 socket.on('message', (message) => {
     // Get message container
@@ -35,6 +44,13 @@ socket.on('message', (message) => {
 
 
 // CONTROL USER SELECTION IN CHAT
+
+// Select user on default
+let contactEl = document.getElementsByClassName('contact')[0];
+if(contactEl) {
+    document.getElementsByClassName('contact')[0].click();
+}
+
 function selectUser(user) {
     // Set page back to 0
     page = 0;

@@ -153,8 +153,23 @@ body {
     height: 14px;
     width: 14px;
     border-radius: 100px;
-    background: green;
     display: inline-flex;
+}
+
+.statusSign[aria-controls="idle"] {
+    background: rgb(255, 196, 0);
+}
+
+.statusSign[aria-controls="online"] {
+    background: rgb(42, 214, 8);
+}
+
+.statusSign[aria-controls="dnd"] {
+    background: rgb(187, 22, 22);
+}
+
+.statusSign[aria-controls="offline"] {
+    background: rgb(128, 128, 128);
 }
 
 #contactGrid .contact .contactStatus {
