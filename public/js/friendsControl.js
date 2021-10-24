@@ -18,7 +18,7 @@ function makeRequest(_id, href, passText) {
     if(!_id) return notyf.error("Please enter a user id");
 
     let body = { _id: _id };
-    fetch('/api/friends/' + href, {
+    fetch('/api/friends' + href, {
         method: "POST",
         body: JSON.stringify(body),
         headers: {
