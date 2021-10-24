@@ -20,10 +20,27 @@ body {
     #gridContainer {
         margin-left: auto;
         margin-right: auto;
-        margin-top: 0;
         width: fit-content;
     }
 }
+
+@media (-webkit-device-pixel-ratio: 1.5) {
+    * {
+      zoom: 0.93;
+    }
+
+    .grid {
+        width: fit-content !important;
+        height: 100% !important;
+    }
+
+    #gridContainer {
+        margin-left: auto;
+        margin-right: auto;
+        width: fit-content;
+    }
+}
+
 
 #olderMessagesContainer {
     width: fit-content;
@@ -570,11 +587,63 @@ body {
 
 .mainContainer {
     width: 1800px;
-    margin: 0;
     position: absolute;
     top: 50%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     height: 80%;
+}
+
+@media only screen and (max-width: 1875px) {
+    .grid:nth-child(2) {
+        width: 800px;
+    }
+    
+    .mainContainer {
+        width: fit-content;
+    }
+}
+
+@media only screen and (max-height: 936px) {
+    .grid {
+        height: 500px !important;
+    }
+
+    #messages {
+        height: 310px;
+    }
+}
+
+@media only screen and (max-width: 1479px) {
+    .grid:nth-child(1) {
+        width: 320px;
+    }
+
+    .grid:nth-child(2) {
+        width: 600px;
+    }
+}
+
+@media only screen and (max-width: 1110px) {
+    #gridContainer {
+        display: block;
+    }
+
+    .grid:nth-child(1) {
+        width: 400px;
+        height: fit-content;
+        max-height: 250px;
+        margin-bottom: 20px;
+        margin-right: 0;
+    }
+
+    .grid:nth-child(2) {
+        width: 400px;
+        margin-right: 0;
+    }
+    
+    body {
+        overflow: scroll;
+    }
 }

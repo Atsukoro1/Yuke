@@ -92,6 +92,9 @@ io.on('connection', (socket) => {
         // Get socket id for message recipient
         let sendToSocketId = socketConnectedUsers.get(data.to);
 
+        // Send online status to user
+        announnceStatus("online", socket);
+
         // If socket id exists, send the message to recipient
         socket.to(sendToSocketId).emit('message', {
             content: data.content,
