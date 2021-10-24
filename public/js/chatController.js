@@ -36,6 +36,12 @@ socket.on('message', (message) => {
 
 // CONTROL USER SELECTION IN CHAT
 function selectUser(user) {
+    // Set page back to 0
+    page = 0;
+
+    // display back load older messages
+    document.getElementById("olderMessages").innerText = "Load older messages";
+
     // Get message container and clear all the previous messages
     const messagesContainer = document.getElementById('messages');
     messagesContainer.textContent = "";

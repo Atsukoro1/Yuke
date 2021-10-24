@@ -15,6 +15,38 @@ const {
 
 const router = express.Router();
 
+router.post('/search', apiTokenVerify, async (req, res) => {
+    // Validate user input
+    const joiSchema = Joi.object({
+        username: Joi.string().required().min(1).max(255)
+    });
+
+    // Send back error if user input is not valid
+    const error = joiSchema.validate(req.body).error;
+    if (error) return res.json({
+        error: error.details[0].message
+    });
+
+    User.find({
+            username: {
+                $regex: "^" + req.body.username
+            }
+        }, "_id username email")
+        .limit(10)
+        .exec(function (err, users) {
+            if(err) return res.json({ error: "Some error happened!" });
+
+            // Return if no users were found
+            if(users.length == 0) return res.json({ error: "No users found!" });
+
+            // Hash email because we're using gravatar
+            users.forEach(u => {
+                u.email = md5(u.email);
+            });
+            return res.json(users);
+        });
+})
+
 router.post('/add', apiTokenVerify, async (req, res) => {
     // Validate user input
     const joiSchema = Joi.object({

@@ -46,16 +46,16 @@ function authenticate() {
         document.cookie = "token=" + data.token;
         window.location.href = "/";
     })
-}
+};
 
 // Try to authenticate when user clicks button
 onAuthClickButton.addEventListener('click', () => {
     authenticate();
-})
+});
 
 // Try to authenticate when user press the "Enter" key
 document.addEventListener('keydown', (key) => {
     if(key.code == "Enter") {
         authenticate();
     }
-})
+});

@@ -195,30 +195,15 @@
                 </div>
 
                 <div class="friendsColumn">
-                    <h1 class="friendsColumnTitle">Outgoing friend requests</h1>
+                    <h1 class="friendsColumnTitle">Add friends</h1>
 
                     <div id="addFriendsFlexbox">
-                        <input type="text" id="addFriendsInput" placeholder="Enter a user ID..">
-                        <button onclick="addFriend(document.getElementById('addFriendsInput').value)" id="addFriendsButton"><i class="fas fa-plus-circle"></i></button>
+                        <input type="text" id="addFriendsInput" placeholder="Enter a user name..">
+                        <button onclick="searchFriends(document.getElementById('addFriendsInput').value)" id="addFriendsButton"><i class="fas fa-search"></i></button>
                     </div>
 
-                    <div id="ofContainer">
-
-                        <% if(user.outgoingFriendRequests) { %>
-                        <% user.outgoingFriendRequests.forEach(us => { %>
-                        <div id="<%= us._id.toString() %>" class="fContact">
-                            <div>
-                                <img class="fContactProfilePicture" src="https://www.gravatar.com/avatar/<%= us.email %>?d=retro">
-                                <label id="fContactName"><%= us.username %></label>
-                            </div>
-
-                            <div>
-                                <button class="fButtons"><i class="fas fa-times"></i></button>
-                            </div>
-                        </div>
-                        <% }); %>
-                        <% } %>
-
+                    <div id="sfContainer">
+                    
                     </div>
                 </div>
             </div>

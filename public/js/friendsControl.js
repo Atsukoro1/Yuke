@@ -60,3 +60,39 @@ function declineFriendRequest(_id) {
     makeRequest(_id, "/decline", "Successfully declined friend request!");
     document.getElementById(_id).remove();
 }
+
+function searchFriends(username) {
+    if(!username) return notyf.error("Please enter a username");
+
+    let body = { username: username };
+    fetch('/api/friends/search', {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.error) return notyf.error(data.error);
+        
+        data.forEach(user => {
+            let element = document.createElement('div');
+
+            element.innerHTML = `
+                        <div id="${user._id}" class="fContact">
+                            <div>
+                                <img class="fContactProfilePicture" src="https://www.gravatar.com/avatar/${user.email}?d=retro">
+                                <label id="fContactName">${user.username}</label>
+                            </div>
+
+                            <div>
+                                <button onclick="addFriend('${user._id.toString()}')" class="fButtons"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+            `
+
+            document.getElementById('sfContainer').appendChild(element);
+        })
+    })
+}
